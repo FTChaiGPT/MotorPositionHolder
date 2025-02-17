@@ -15,9 +15,13 @@ Creating a TargetPositionHolder object
 ```
 private TargetPositionHolder positionHolder = new TargetPositionHolder();
 ```
-Hold motor at position (Paramters without @NonNull are optional, use them for more control over how the motor is held!)
+Hold motor at position (Parameters without @NonNull are optional, use them for more control over how the motor is held!) 
+If you don't use the optional parameters, they'll be set to default values that you can tweak in the source file itself. 
 ```
-    public void holdDcMotor(@NonNull DcMotor motor, @NonNull double holdPosition, @NonNull VoltageSensor batteryVoltageSensor, double gearRatio, double ticksPerRev, double holdPower, double marginOfError, double powerMultiplier, double tuningPowerMultiplier)
+    public void holdDcMotor(@NonNull DcMotor motor, @NonNull double holdPosition, @NonNull VoltageSensor batteryVoltageSensor)
+    //however, there are optional params you can use in the following format ("PARAM_NAME", VALUE)
+    positionHolder.holdDcMotor(motor, 1800, sensor, "GEAR-RATIO", 3)
+    // ^^ specifying DC motor. 
 ```
 Stop holding motor
 ```
