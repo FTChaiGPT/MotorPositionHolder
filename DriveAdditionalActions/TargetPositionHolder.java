@@ -40,15 +40,14 @@ public class TargetPositionHolder extends LinearOpMode {
     /** Future is used to handle specific parts of the ExecutorService instead of only handling all or none **/
 
 
-    public void holdDcMotor(@NonNull DcMotor motor, @NonNull double holdPosition, @NonNull VoltageSensor batteryVoltageSensor, Object... varargs) {
+    public void holdDcMotor(@NonNull DcMotor motor, @NonNull double holdPosition, @NonNull VoltageSensor batteryVoltageSensor, double gearRatio, double ticksPerRev, double holdPower, double marginOfError, double powerMultiplier, double tuningPowerMultiplier) {
 
-        double[] varargsData = processVarargs(varargs);
-        gearRatio = varargsData[0];
-        TICKS_PER_REV = varargsData[1];
-        holdPower = varargsData[2];
-        marginOfError = varargsData[3];
-        powerMultiplier = varargsData[4];
-        tuningPowerMultiplier = varargsData[5];
+        this.gearRatio = gearRatio;
+        TICKS_PER_REV = ticksPerRev;
+        this.holdPower = holdPower;
+        this.marginOfError = marginOfError;
+        this.powerMultiplier = powerMultiplier;
+        this.tuningPowerMultiplier = tuningPowerMultiplier;
 
         double MAX_POWER = Math.min(1 / gearRatio, 1);
         /** ternary operator **/
@@ -94,50 +93,25 @@ public class TargetPositionHolder extends LinearOpMode {
         }
 
     }
-
-
-    private double[] processVarargs(Object... varargs) {
-
-        double ticksPerRev = TICKS_PER_REV;
-        double gearRatio = this.gearRatio;
-        double holdPower = this.holdPower;
-        double marginOfError = this.marginOfError;
-        double powerMultiplier = this.powerMultiplier;
-        double tuningPowerMultiplier = this.tuningPowerMultiplier;
-
-        for (int i = 0; i < varargs.length; i += 2) {
-            if (varargs[i] instanceof String && varargs[i + 1] instanceof Number) {
-                String stringKey = (String) varargs[i];
-                double value = ((Number) varargs[i + 1]).doubleValue();
-                /** Number is data type of Object number, here it is Double,
-                 * Double is a wrapper of the primitive: double, and needs to be unboxed from a  Double to a double avoids ClassCastException **/
-                switch (stringKey) {
-                    case "GEAR_RATIO":
-                        gearRatio = value;
-                        break;
-                    case "TICKS_PER_REV":
-                        ticksPerRev = value;
-                        break;
-                    case "HOLD_POWER":
-                        holdPower = value;
-                        break;
-                    case "ALLOWABLE_MARGIN_OF_ERROR":
-                        marginOfError = value;
-                        break;
-                    case "POWER_MULTIPLIER":
-                        powerMultiplier = value;
-                        break;
-                    case "TUNING_POWER_MULTIPLIER":
-                        tuningPowerMultiplier = value;
-                    default:
-                        //does nothing for unknown keys.
-                        break;
-                }
-            }
-        }
-        return new double[] {gearRatio, ticksPerRev, holdPower, marginOfError, powerMultiplier, tuningPowerMultiplier};
+    public void holdDcMotor(@NonNull DcMotor motor, @NonNull double holdPosition, @NonNull VoltageSensor batteryVoltageSensor){
+        holdDcMotor(motor, holdPosition, batteryVoltageSensor, gearRatio, TICKS_PER_REV, holdPower, marginOfError, powerMultiplier, tuningPowerMultiplier);
     }
-
+    public void holdDcMotor(@NonNull DcMotor motor, @NonNull double holdPosition, @NonNull VoltageSensor batteryVoltageSensor, double gearRatio){
+        holdDcMotor(motor, holdPosition, batteryVoltageSensor, gearRatio, TICKS_PER_REV, holdPower, marginOfError, powerMultiplier, tuningPowerMultiplier);
+    }
+    public void holdDcMotor(@NonNull DcMotor motor, @NonNull double holdPosition, @NonNull VoltageSensor batteryVoltageSensor, double gearRatio, double ticksPerRev){
+        holdDcMotor(motor, holdPosition, batteryVoltageSensor, gearRatio, ticksPerRev, holdPower, marginOfError, powerMultiplier, tuningPowerMultiplier);
+    }
+    public void holdDcMotor(@NonNull DcMotor motor, @NonNull double holdPosition, @NonNull VoltageSensor batteryVoltageSensor, double gearRatio, double ticksPerRev, double holdPower){
+        holdDcMotor(motor, holdPosition, batteryVoltageSensor, gearRatio, ticksPerRev, holdPower, marginOfError, powerMultiplier, tuningPowerMultiplier);
+    }
+    public void holdDcMotor(@NonNull DcMotor motor, @NonNull double holdPosition, @NonNull VoltageSensor batteryVoltageSensor, double gearRatio, double ticksPerRev, double holdPower, double marginOfError, double powerMultiplier){
+        holdDcMotor(motor, holdPosition, batteryVoltageSensor, gearRatio, ticksPerRev, holdPower, marginOfError, powerMultiplier, tuningPowerMultiplier);
+    }
+    
+    public void holdDcMotor(@NonNull DcMotor motor, @NonNull double holdPosition, @NonNull VoltageSensor batteryVoltageSensor, double gearRatio, double ticksPerRev, double holdPower, double marginOfError){
+        holdDcMotor(motor, holdPosition, batteryVoltageSensor, gearRatio, ticksPerRev, holdPower, marginOfError, powerMultiplier, tuningPowerMultiplier);
+    }
     public void clearFutureOfDcMotor(DcMotor motor) {
         if (motorTasks.containsKey(motor)) motorTasks.remove(motor);
     }
