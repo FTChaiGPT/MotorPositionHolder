@@ -9,7 +9,7 @@ Documentation written by Aditya Bhadra | 24133 | ChaiGPT Robotics
 3. Copy the file into the "Teamcode" folder in your code
 4. You're ready to begin! Look at the documentation provided as well as the example file in order to start using the library.
 
-## Repository
+## Documentation
 
 Creating a TargetPositionHolder object
 ```
