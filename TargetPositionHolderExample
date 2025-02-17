@@ -1,0 +1,49 @@
+package org.firstinspires.ftc.teamcode.DriveAdditionalActions;
+
+import static android.os.SystemClock.sleep;
+import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
+
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
+
+import org.firstinspires.ftc.teamcode.DriveAdditionalActions.TargetPositionHolder;
+
+public class TargetPositionHolderExample extends OpMode {
+
+    private DcMotor exampleMotor;
+
+    private VoltageSensor batteryVoltageSensor;
+
+    private TargetPositionHolder robot = new TargetPositionHolder();
+
+    @Override
+    public void init() {
+        exampleMotor = hardwareMap.get(DcMotor.class, "motor");
+        exampleMotor.setZeroPowerBehavior(BRAKE);
+
+        batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
+    }
+
+    @Override
+    public void stop() { robot.killExecutor(); }
+
+    @Override
+    public void loop() {
+        robot.holdDcMotor(exampleMotor, 1000, batteryVoltageSensor);
+
+        sleep(1800);
+
+        robot.stopHoldingDcMotor(exampleMotor);
+
+        sleep(1800);
+
+        robot.holdDcMotor(exampleMotor, 1000, batteryVoltageSensor, "GEAR_RATIO", 2.5, "HOLD_POWER", 0.08);
+
+        sleep(1800);
+
+        robot.stopHoldingDcMotor(exampleMotor);
+
+        sleep(1800);
+    }
+}
